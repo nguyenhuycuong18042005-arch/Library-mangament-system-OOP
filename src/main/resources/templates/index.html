@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head_chung}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/layout :: header_chung}"></nav>
+
+<main class="container py-5">
+
+    <div th:if="${session.USER_LOGGED_IN != null}">
+        <div class="p-5 bg-light rounded-3 shadow-sm border text-center">
+            <h1 class="display-6 fw-bold text-primary">
+                Xin chào, <span th:text="${session.USER_LOGGED_IN.hoTen}">User</span>!
+            </h1>
+            <hr class="my-4">
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/books" class="btn btn-outline-primary">Quản lý Sách</a>
+                <a href="/borrow" class="btn btn-success">Tạo phiếu mượn</a>
+                <a href="/logout" class="btn btn-danger">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+
+    <div th:unless="${session.USER_LOGGED_IN != null}" class="text-center mt-5">
+        <h3>Vui lòng đăng nhập</h3>
+        <a href="/login" class="btn btn-primary mt-3">Đăng nhập ngay</a>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer_chung}"></footer>
+
+</body>
+</html>
