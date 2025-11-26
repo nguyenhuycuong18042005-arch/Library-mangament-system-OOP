@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DocGia {
-    // TODO: Thêm các thuộc tính, getter, setter, constructor
+
     // --- 1. Thuộc tính (Attributes) ---
     private String maDocGia;
     private String hoTen;
     private String email;
     private String soDienThoai;
     private String diaChi;
+    private boolean biKhoa = false;
 
     // --- 2. Các mối quan hệ (Relationships) ---
     // Quan hệ 1 - n với PhieuMuon
@@ -99,5 +100,11 @@ public class DocGia {
 
     public void setSachDangMuon(List<SachVatLy> sachDangMuon) {
         this.sachDangMuon = sachDangMuon;
+    }
+    public boolean isBiKhoa() {
+        return biKhoa;
+    }
+    public void setBiKhoa(boolean biKhoa) {
+        this.biKhoa = biKhoa;
     }
 }
