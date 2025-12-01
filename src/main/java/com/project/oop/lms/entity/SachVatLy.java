@@ -24,13 +24,12 @@ public class SachVatLy {
     private TinhTrang tinhTrang;
 
     public SachVatLy() {
-        // JPA bắt buộc phải có constructor rỗng
     }
 
     public SachVatLy(String maVach, String isbn) {
         this.maVach = maVach;
         this.isbn = isbn;
-        this.tinhTrang = TinhTrang.SAN_SANG;  // mặc định như bản của bạn
+        this.tinhTrang = TinhTrang.SAN_SANG;
     }
 
     public String getMaVach() {
