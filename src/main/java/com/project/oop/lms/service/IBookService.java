@@ -79,4 +79,25 @@ public void nhapSachVatLy(String isbn, int soLuong) {
 
     System.out.println(">> Đã nhập " + soLuong + " cuốn.");
 }
+public List<Sach> timKiemSach(String keyword) {
+    List<Sach> ketQua = new ArrayList<>();
+
+    if (keyword == null || keyword.isEmpty()) {
+        System.out.println("!! Từ khóa tìm kiếm rỗng.");
+        return ketQua;
+    }
+
+    String kw = keyword.toLowerCase();
+
+    for (Sach s : db.dsDauSach.values()) {
+        boolean matchISBN = s.getIsbn().toLowerCase().contains(kw);
+        boolean matchTitle = s.getTieuDe().toLowerCase().contains(kw);
+
+        if (matchISBN || matchTitle) {
+            ketQua.add(s);
+        }
+    }
+
+    return ketQua;
+}
 }
