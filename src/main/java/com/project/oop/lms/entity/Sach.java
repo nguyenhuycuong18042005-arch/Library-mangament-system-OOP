@@ -22,15 +22,15 @@ public class Sach {
         name = "sach_tac_gia",
         joinColumns = @JoinColumn(name = "isbn")
     )
-    @Column(name = "ma_tg")
+    @Column(name = "ma_tg", nullable = false)
     private List<String> maTacGiaList;
 
     public Sach() {
     }
 
-    public Sach(String tenSach, String isbn, String theLoai, List<String> maTacGiaList) {
-        this.tenSach = tenSach;
+    public Sach(String isbn, String tenSach, String theLoai, List<String> maTacGiaList) {
         this.isbn = isbn;
+        this.tenSach = tenSach;
         this.theLoai = theLoai;
         this.maTacGiaList = maTacGiaList;
     }
