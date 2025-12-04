@@ -1,8 +1,10 @@
 package com.project.oop.lms.repository;
 import com.project.oop.lms.entity.*;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+@Component
 
 public class LibraryData {
     //Các danh sách được lưu trong csdl
