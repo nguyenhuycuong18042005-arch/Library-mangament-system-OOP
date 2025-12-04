@@ -16,7 +16,7 @@ public interface IBookService {
 public void themDauSach(String isbn, String tieuDe, List<String> maTacGiaList) {
 
     // 1. Kiểm tra ISBN có tồn tại hay chưa
-    if (db.dsDauSach.containsKey(isbn)) {
+    if (db.dsSach.containsKey(isbn)) {
         System.out.println("!! Lỗi: ISBN đã tồn tại.");
         return;
     }
@@ -26,20 +26,6 @@ public void themDauSach(String isbn, String tieuDe, List<String> maTacGiaList) {
         System.out.println("!! Lỗi: ISBN hoặc tiêu đề không hợp lệ.");
         return;
     }
-
-    if (maTacGiaList == null || maTacGiaList.isEmpty()) {
-        System.out.println("!! Lỗi: Sách phải có ít nhất 1 tác giả.");
-        return;
-    }
-
-    // 3. Kiểm tra tác giả có tồn tại trong hệ thống không
-    for (String maTG : maTacGiaList) {
-        if (!db.dsTacGia.containsKey(maTG)) {
-            System.out.println("!! Lỗi: Tác giả " + maTG + " không tồn tại.");
-            return;
-        }
-    }
-
     // 4. Tạo đối tượng sách
     Sach sach = new Sach(isbn, tieuDe, maTacGiaList);
 
@@ -56,7 +42,7 @@ public void themDauSach(String isbn, String tieuDe, List<String> maTacGiaList) {
 //
 public void nhapSachVatLy(String isbn, int soLuong) {
     // 1. Kiểm tra ISBN có tồn tại không
-    if (!db.dsDauSach.containsKey(isbn)) {
+    if (!db.dsSach.containsKey(isbn)) {
         System.out.println("!! Lỗi: ISBN không tồn tại.");
         return;
     }
@@ -89,7 +75,7 @@ public List<Sach> timKiemSach(String keyword) {
 
     String kw = keyword.toLowerCase();
 
-    for (Sach s : db.dsDauSach.values()) {
+    for (Sach s : db.dsSach.values()) {
         boolean matchISBN = s.getIsbn().toLowerCase().contains(kw);
         boolean matchTitle = s.getTieuDe().toLowerCase().contains(kw);
 
