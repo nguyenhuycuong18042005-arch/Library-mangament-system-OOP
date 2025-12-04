@@ -13,7 +13,7 @@ public interface IBookService {
     void nhapSachVatLy(String isbn, int soLuong);
     // TODO: Thêm các hàm tìm kiếm...
 //themDauSach
-public void themDauSach(String isbn, String , List<String> maTacGiaList) {
+public void themDauSach(String isbn, String tenSach , List<String> maTacGiaList) {
 
     // 1. Kiểm tra ISBN có tồn tại hay chưa
     if (db.dsSach.containsKey(isbn)) {
@@ -22,15 +22,15 @@ public void themDauSach(String isbn, String , List<String> maTacGiaList) {
     }
 
     // 2. Kiểm tra dữ liệu đầu vào
-    if (isbn == null || isbn.isEmpty() || tieuDe == null || tieuDe.isEmpty()) {
+    if (isbn == null || isbn.isEmpty() || tenSach == null || tenSach.isEmpty()) {
         System.out.println("!! Lỗi: ISBN hoặc tiêu đề không hợp lệ.");
         return;
     }
     // 4. Tạo đối tượng sách
-    Sach sach = new Sach(isbn, tieuDe, maTacGiaList);
+    Sach sach = new Sach(isbn, tenSach, maTacGiaList);
 
     // 5. Lưu vào database (danh sách)
-    db.dsDauSach.put(isbn, sach);
+    db.dsSach.put(isbn, sach);
 
     // 6. Lưu xuống file JSON nếu đang dùng DataStore
     dataStore.saveData();
