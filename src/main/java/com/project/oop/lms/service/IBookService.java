@@ -13,7 +13,7 @@ public interface IBookService {
     void nhapSachVatLy(String isbn, int soLuong);
     // TODO: Thêm các hàm tìm kiếm...
 //themDauSach
-public void themDauSach(String isbn, String tieuDe, List<String> maTacGiaList) {
+public void themDauSach(String isbn, String , List<String> maTacGiaList) {
 
     // 1. Kiểm tra ISBN có tồn tại hay chưa
     if (db.dsSach.containsKey(isbn)) {
@@ -77,7 +77,7 @@ public List<Sach> timKiemSach(String keyword) {
 
     for (Sach s : db.dsSach.values()) {
         boolean matchISBN = s.getIsbn().toLowerCase().contains(kw);
-        boolean matchTitle = s.getTieuDe().toLowerCase().contains(kw);
+        boolean matchTitle = s.getTenSach().toLowerCase().contains(kw);
 
         if (matchISBN || matchTitle) {
             ketQua.add(s);
