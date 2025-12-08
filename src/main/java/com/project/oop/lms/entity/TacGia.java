@@ -1,19 +1,9 @@
 package com.project.oop.lms.entity;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "tac_gia")
 public class TacGia {
 
-    @Id
-    @Column(name = "ma_tg", nullable = false)
     private String maTG;
-
-    @Column(name = "ho_ten", nullable = false)
     private String hoTen;
-
-    @Column(name = "quoc_tich")
     private String quocTich;
 
     public TacGia() {
