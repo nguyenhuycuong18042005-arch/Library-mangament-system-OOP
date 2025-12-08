@@ -1,9 +1,5 @@
 package com.project.oop.lms.entity;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "sach_vat_ly")
 public class SachVatLy {
 
     public enum TinhTrang {
@@ -12,15 +8,8 @@ public class SachVatLy {
         HONG
     }
 
-    @Id
-    @Column(name = "ma_vach", nullable = false)
     private String maVach;
-
-    @Column(name = "isbn", nullable = false)
     private String isbn;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tinh_trang", nullable = false)
     private TinhTrang tinhTrang;
 
     public SachVatLy() {
