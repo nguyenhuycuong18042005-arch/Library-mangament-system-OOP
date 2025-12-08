@@ -1,89 +1,104 @@
 package com.project.oop.lms.service;
+
 import com.project.oop.lms.entity.Sach;
-import com.project.oop.lms.entity.Tacgia;
 import com.project.oop.lms.entity.SachVatLy;
-import com.project.oop.lms.repository.*;
+import com.project.oop.lms.repository.LibraryData;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.time.LocalDate;
 
-public interface IBookService {
-    List<Sach> getAllDauSach();
-    void themDauSach(Sach sach);
-    void nhapSachVatLy(String isbn, int soLuong);
-    // TODO: Thêm các hàm tìm kiếm...
-//themDauSach
-public void themDauSach(String isbn, String tenSach , List<String> maTacGiaList) {
+public class BookService implements IBookService {
 
-    // 1. Kiểm tra ISBN có tồn tại hay chưa
-    if (db.dsSach.containsKey(isbn)) {
-        System.out.println("!! Lỗi: ISBN đã tồn tại.");
-        return;
+    private final LibraryData db;
+
+    public BookService(LibraryData db) {
+        this.db = db;
     }
 
-    // 2. Kiểm tra dữ liệu đầu vào
-    if (isbn == null || isbn.isEmpty() || tenSach == null || tenSach.isEmpty()) {
-        System.out.println("!! Lỗi: ISBN hoặc tiêu đề không hợp lệ.");
-        return;
-    }
-    // 4. Tạo đối tượng sách
-    Sach sach = new Sach(isbn, tenSach, maTacGiaList);
-
-    // 5. Lưu vào database (danh sách)
-    db.dsSach.put(isbn, sach);
-
-    // 6. Lưu xuống file JSON nếu đang dùng DataStore
-    dataStore.saveData();
-
-    System.out.println(">> Đã thêm đầu sách thành công!");
-}
-
-
-//
-public void nhapSachVatLy(String isbn, int soLuong) {
-    // 1. Kiểm tra ISBN có tồn tại không
-    if (!db.dsSach.containsKey(isbn)) {
-        System.out.println("!! Lỗi: ISBN không tồn tại.");
-        return;
+    @Override
+    public List<Sach> getAllDauSach() {
+        return db.getDsSach();
     }
 
-    // 2. Tìm số thứ tự hiện có để tránh trùng
-    int count = 0;
-    for (String key : db.dsSachVatLy.keySet()) {
-        if (key.startsWith(isbn + "-")) {
-            count++;
+    @Override
+    public void themDauSach(String isbn, String tenSach, List<String> maTacGiaList) {
+
+        // 1. Kiểm tra ISBN trùng
+        for (Sach s : db.getDsSach()) {
+            if (s.getIsbn().equals(isbn)) {
+                System.out.println("!! Lỗi: ISBN đã tồn tại.");
+                return;
+            }
         }
+
+        // 2. Kiểm tra dữ liệu
+        if (isbn == null || isbn.isEmpty() ||
+            tenSach == null || tenSach.isEmpty()) {
+            System.out.println("!! Lỗi: ISBN hoặc tiêu đề không hợp lệ.");
+            return;
+        }
+
+        // 3. Tạo và lưu sách
+        Sach sach = new Sach(isbn, tenSach, "Không rõ", maTacGiaList);
+        db.getDsSach().add(sach);
+
+        System.out.println(">> Đã thêm đầu sách thành công!");
     }
 
-    // 3. Tạo các bản copy
-    for (int i = 1; i <= soLuong; i++) {
-        int stt = count + i;  // tăng tiếp theo
-        String code = String.format("%s-%03d", isbn, stt);
+    @Override
+    public void nhapSachVatLy(String isbn, int soLuong) {
 
-        db.dsSachVatLy.put(code, new SachVatLy(code, isbn));
+        // 1. kiểm tra ISBN tồn tại
+        boolean tonTai = false;
+        for (Sach s : db.getDsSach()) {
+            if (s.getIsbn().equals(isbn)) {
+                tonTai = true;
+                break;
+            }
+        }
+        if (!tonTai) {
+            System.out.println("!! Lỗi: ISBN không tồn tại.");
+            return;
+        }
+
+        // 2. Tìm số thứ tự tiếp theo
+        int count = 0;
+        for (SachVatLy svl : db.getDsSachVatLy()) {
+            if (svl.getIsbn().equals(isbn)) {
+                count++;
+            }
+        }
+
+        // 3. Tạo sách vật lý
+        for (int i = 1; i <= soLuong; i++) {
+            int stt = count + i;
+            String code = String.format("%s-%03d", isbn, stt);
+
+            db.getDsSachVatLy().add(new SachVatLy(code, isbn));
+        }
+
+        System.out.println(">> Đã nhập " + soLuong + " cuốn.");
     }
 
-    System.out.println(">> Đã nhập " + soLuong + " cuốn.");
-}
-public List<Sach> timKiemSach(String keyword) {
-    List<Sach> ketQua = new ArrayList<>();
+    @Override
+    public List<Sach> timKiemSach(String keyword) {
+        List<Sach> ketQua = new ArrayList<>();
 
-    if (keyword == null || keyword.isEmpty()) {
-        System.out.println("!! Từ khóa tìm kiếm rỗng.");
+        if (keyword == null || keyword.isEmpty()) {
+            return ketQua;
+        }
+
+        String kw = keyword.toLowerCase();
+
+        for (Sach s : db.getDsSach()) {
+            boolean matchISBN = s.getIsbn().toLowerCase().contains(kw);
+            boolean matchTitle = s.getTenSach().toLowerCase().contains(kw);
+
+            if (matchISBN || matchTitle) {
+                ketQua.add(s);
+            }
+        }
+
         return ketQua;
     }
-
-    String kw = keyword.toLowerCase();
-
-    for (Sach s : db.dsSach.values()) {
-        boolean matchISBN = s.getIsbn().toLowerCase().contains(kw);
-        boolean matchTitle = s.getTenSach().toLowerCase().contains(kw);
-
-        if (matchISBN || matchTitle) {
-            ketQua.add(s);
-        }
-    }
-
-    return ketQua;
-}
 }
