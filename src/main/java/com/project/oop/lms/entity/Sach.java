@@ -1,28 +1,12 @@
 package com.project.oop.lms.entity;
 
-import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "sach")
 public class Sach {
 
-    @Id
-    @Column(name = "isbn", nullable = false)
     private String isbn;
-
-    @Column(name = "ten_sach", nullable = false)
     private String tenSach;
-
-    @Column(name = "the_loai", nullable = false)
     private String theLoai;
-
-    @ElementCollection
-    @CollectionTable(
-        name = "sach_tac_gia",
-        joinColumns = @JoinColumn(name = "isbn")
-    )
-    @Column(name = "ma_tg", nullable = false)
     private List<String> maTacGiaList;
 
     public Sach() {
@@ -65,5 +49,15 @@ public class Sach {
 
     public void setMaTacGiaList(List<String> maTacGiaList) {
         this.maTacGiaList = maTacGiaList;
+    }
+
+    @Override
+    public String toString() {
+        return "Sach{" +
+                "isbn='" + isbn + '\'' +
+                ", tenSach='" + tenSach + '\'' +
+                ", theLoai='" + theLoai + '\'' +
+                ", maTacGiaList=" + maTacGiaList +
+                '}';
     }
 }
