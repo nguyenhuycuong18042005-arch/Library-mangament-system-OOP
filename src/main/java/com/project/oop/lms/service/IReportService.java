@@ -9,5 +9,5 @@ public interface IReportService {
     Sach sachDuocMuonNhieuNhat();
 
     // Độc giả có sách quá hạn (ví dụ đơn giản)
-    DocGia docGiaCoSachQuaHan();
+    DocGia thongKeDocGiaQuaHan();
 }

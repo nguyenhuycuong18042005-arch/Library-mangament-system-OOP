@@ -73,7 +73,7 @@ public class ReportServiceImpl implements IReportService {
       //TÌM ĐỘC GIẢ CÓ SÁCH QUÁ HẠN
      
     @Override
-    public DocGia docGiaCoSachQuaHan() {
+    public DocGia thongKeDocGiaQuaHan() {
 
         // Lấy ngày hiện tại
         Date today = new Date();
@@ -94,7 +94,6 @@ public class ReportServiceImpl implements IReportService {
             }
         }
 
-        // Không có độc giả nào quá hạn
         return null;
     }
 }
