@@ -12,7 +12,7 @@ public class ReportController {
 
     // TRANG CHỦ BÁO CÁO
 
-    // Khi người dùng truy cập: http://localhost:8080/report
+    // URL : http://localhost:8080/report
     @GetMapping("")
     public String index() {
 
@@ -22,7 +22,7 @@ public class ReportController {
 
     // BÁO CÁO TỔNG QUAN
 
-    // URL đầy đủ: http://localhost:8080/report/summary
+    // URL: http://localhost:8080/report/summary
     @GetMapping("/summary")
     public String summary(Model model) {
 
@@ -32,7 +32,7 @@ public class ReportController {
 
     // BÁO CÁO SÁCH QUÁ HẠN
 
-    // URL đầy đủ: http://localhost:8080/report/overdue
+    // URL: http://localhost:8080/report/overdue
     @GetMapping("/overdue")
     public String overdue(Model model) {
 
